@@ -1,10 +1,10 @@
 import operator
 
-ops = {
+ops = { # define operator module
     '+' : operator.add,
     '-' : operator.sub,
     '*' : operator.mul,
-    '/' : operator.truediv,  # use operator.div for Python 2
+    '/' : operator.truediv, 
     '%' : operator.mod,
     '//': operator.floordiv,
     '**': operator.pow,
@@ -17,6 +17,13 @@ ops = {
     '<=': operator.le,
     '>': operator.gt,
     '>=': operator.ge,
+    '+=': operator.iadd,
+    "-=": operator.isub,
+    '//=': operator.ifloordiv,
+    '/=': operator.itruediv,
+    '%=': operator.imod,
+    "*=": operator.imul,
+    "**=": operator.ipow,
 
 }
 
@@ -122,9 +129,10 @@ def handle_expressions(args):
 if __name__ == "__main__": # for testing
 
     # print(find_all("hey bro how are you doing like how?", "h"))
-    test = "1+2+2+3+4*5"
+    # test = ""
     # print("hi")
-    print(handle_operations(test))
+    # print(handle_operations(test))
+    print(_helper_handle_operations(20, 40, "%"))
 
     # operations = ["+", "-", "*", "/", "%", "//", "**"]
     # num1, num2 = 4, 5
