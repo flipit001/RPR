@@ -46,6 +46,6 @@ for i in range(len(usable_lines)):
         print(name, val)
         om.set_vars({name: val})
 
-print(om.vars)
+print(om.vars["one"])
         
 

@@ -1,5 +1,8 @@
 import operator
-from typing import Any
+# import string
+
+# all_chars = string.ascii_letters+'`~-_[{}]\\|;:\'\"'
+
 
 ops = { # define operator module
     '+' : operator.add,
@@ -26,8 +29,16 @@ ops = { # define operator module
     "*=": operator.imul,
     "**=": operator.ipow,
     "?": operator.truth
+}
+
+conversion_chart = {
+    '&&': " and ",
+    "||": " or ",
+    "!": " not ",
+    "?": ""
 
 }
+
 class OperationManager:
     def __init__(self, args=None):
         self.args = args
@@ -38,9 +49,28 @@ class OperationManager:
         res,_,_ = string.partition(ch)
         return res
     
+    def is_true(self, expression):
+        for k, v in conversion_chart.items():
+            expression.replace(k, v)
+        return bool(conversion_chart)
+    
     def set_args(self, args):
         self.args = args
-    
+
+    def get_type(self, value):
+        try: 
+            return self.is_true(value)
+        except ValueError:
+            pass
+        try: 
+            list(value)
+        except:
+            pass
+        try: 
+            int(value)
+        except:
+            pass
+        
     def handle_operation(self, num1, num2, operation):
         return ops[operation](int(num1), int(num2))
 
@@ -115,14 +145,15 @@ any func nice() {
 }
 
 """
+    print(om.is_true("(?1)"))
     # om.handle_brackets("{}")
     # try:
     #     print(om.handle_operation("20", "1000000", "**"))
     # except ValueError:
     #     raise ValueError("too big bruh")
-    om.set_vars({"yup": "not nice"})
-    print(om.vars["yup"])
-    om.set_vars({"yup": "nice"})
-    print(om.vars["yup"])
+    # om.set_vars({"yup": "not nice"})
+    # print(om.vars["yup"])
+    # om.set_vars({"yup": "nice"})
+    # print(om.vars["yup"])
 
 
