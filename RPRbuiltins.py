@@ -1,3 +1,25 @@
+import operator
+
+ops = {
+    '+' : operator.add,
+    '-' : operator.sub,
+    '*' : operator.mul,
+    '/' : operator.truediv,  # use operator.div for Python 2
+    '%' : operator.mod,
+    '//': operator.floordiv,
+    '**': operator.pow,
+    '&&': operator.and_,
+    '||': operator.or_,
+    '!': operator.not_,
+    '==': operator.eq,
+    '!=': operator.ne,
+    '<': operator.lt,
+    '<=': operator.le,
+    '>': operator.gt,
+    '>=': operator.ge,
+
+}
+
 
 spaces = [" ", "\t", "\n"]
 types = ["string", "int", "bool", "float", "list"] # mayble hashmap eventually
@@ -7,28 +29,23 @@ bool_operations = ["==", "!=", "<=", ">=", "<", ">", "!"]
 and_or = ["&&", "||"]
 activate_tabs = ["if", "else", "elif", "func"]
 
+def _helper_handle_operations(num1, num2, operation):
+    return ops[operation](num1, num2)
 
-def handle_operations(num1, num2, operation):
-    if operation == "+":
-        return num1 + num2
-    elif operation == "-":
-        return num1 - num2
-    elif operation == "*":
-        return num1 * num2
-    elif operation == "/":
-        return num1 / num2
-    elif operation == "%":
-        return num1 % num2
-    elif operation == "//":
-        return num1 // num2
-    elif operation == "**":
-        return num1 ** num2
-    
+
 def multi_split(string, delimiters):
     for delimiter in delimiters:
         string = " ".join(string.split(delimiter))
  
     return string.split()
+
+def handle_operations(args):
+    args.replace(" ", "")
+    # P E MD AS
+    all_nums = multi_split(args, math_operations)
+    all_operands = multi_split(args, all_nums)
+    return [all_nums, all_operands]
+    
 
 def in_between(del1, del2, string):
     _, _, after = string.partition(del1) # after del1
@@ -70,19 +87,32 @@ def handle_parantheses(args):
     for k, v in pair.items():
         output.append(args[k:v])
     
-    return output[-len(multi_split(args, and_or)):], args
+    return [output[-len(multi_split(args, and_or)):], args]
 
 
-def handle_operations(args):
+
+def _helper_handle_expressions(args):
     expressions = args[0]
     original = args[1]
+    output = [[]]
     for expression in expressions:
         expression = in_between("(", ")", expression)
+        print(expression)
         #bool_operations = ["==", "!=", "<=", ">=", "<", ">", "!"]
-        for i in range(len(bool_operations)):
-            if bool_operations[i] in expression:
-                condition, ex, check = expression.partition(bool_operations[0])
-                
+        cond, ex, check = expression.partition(bool_operations[0])
+        expression = ops[ex](cond, check)
+
+        
+        output[0].append(expression)
+    
+    output.append(original)
+    return output
+
+def handle_expressions(args):
+    arguments = handle_parantheses(args)
+    expressions, original = _helper_handle_expressions(arguments)
+    return [expressions, original]
+
 
         
     
@@ -92,9 +122,9 @@ def handle_operations(args):
 if __name__ == "__main__": # for testing
 
     # print(find_all("hey bro how are you doing like how?", "h"))
-    test = "(((1+1==2)&&(2+2!=3))||(54+2==56))"
+    test = "1+2+2+3+4*5"
     # print("hi")
-    print(handle_parantheses(test))
+    print(handle_operations(test))
 
     # operations = ["+", "-", "*", "/", "%", "//", "**"]
     # num1, num2 = 4, 5
