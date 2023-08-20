@@ -1,4 +1,5 @@
 import operator
+from typing import Any
 
 ops = { # define operator module
     '+' : operator.add,
@@ -32,6 +33,10 @@ class OperationManager:
         self.args = args
         self.functions = {}
         self.vars = {}
+
+    def get_before(self, string, ch):
+        res,_,_ = string.partition(ch)
+        return res
     
     def set_args(self, args):
         self.args = args
@@ -93,10 +98,12 @@ class OperationManager:
     # def set_function(self, func, *args):
     #     self.functions[func] = args
 
-    def set_vars(self, **kwargs):
-        for k, v in kwargs.items():
+    def set_vars(self, adict):
+        for k, v in adict.items():
             self.vars[k] = v
 
+    def remove_all_2d(self, l, N):
+        return [[ele for ele in sub if ele != N] for sub in l]
 
 if __name__ == "__main__":
     om = OperationManager()
@@ -113,9 +120,9 @@ any func nice() {
     #     print(om.handle_operation("20", "1000000", "**"))
     # except ValueError:
     #     raise ValueError("too big bruh")
-    om.set_vars(yup="nope")
+    om.set_vars({"yup": "not nice"})
     print(om.vars["yup"])
-    om.set_vars(yup="of course")
+    om.set_vars({"yup": "nice"})
     print(om.vars["yup"])
 
 
