@@ -1,4 +1,5 @@
 import operator
+from old.exceptions import *
 
 ops = { # define operator module
     '+' : operator.add,
@@ -24,6 +25,7 @@ ops = { # define operator module
     '%=': operator.imod,
     "*=": operator.imul,
     "**=": operator.ipow,
+    "?": operator.truth
 
 }
 
@@ -32,7 +34,7 @@ spaces = [" ", "\t", "\n"]
 types = ["string", "int", "bool", "float", "list"] # mayble hashmap eventually
 dividers = ["(", ")", "[", "]"]
 math_operations = ["+", "-", "*", "/", "%", "//", "**"]
-bool_operations = ["==", "!=", "<=", ">=", "<", ">", "!"]
+bool_operations = ["==", "!=", "<=", ">=", "<", ">", "!", "?"]
 and_or = ["&&", "||"]
 activate_tabs = ["if", "else", "elif", "func"]
 
@@ -46,12 +48,7 @@ def multi_split(string, delimiters):
  
     return string.split()
 
-def handle_operations(args):
-    args.replace(" ", "")
-    # P E MD AS
-    all_nums = multi_split(args, math_operations)
-    all_operands = multi_split(args, all_nums)
-    return [all_nums, all_operands]
+
     
 
 def in_between(del1, del2, string):
@@ -59,8 +56,12 @@ def in_between(del1, del2, string):
     before, _, _ = after.partition(del2) # before del2 after del1
     return before
 
+
+
 def find_all(string, ch):
     return [i for i, letter in enumerate(string) if letter == ch]
+
+
 
 def lists_2_dict(list1, list2):
     return dict(zip(list1, list2))
@@ -96,21 +97,41 @@ def handle_parantheses(args):
     
     return [output[-len(multi_split(args, and_or)):], args]
 
+def handle_operations(args):
+    args.replace(" ", "")
+    nargs = handle_parantheses(args)
+
+    # P E MD AS
+    all_nums = multi_split(args, math_operations)
+    all_operands = multi_split(args, all_nums)
+    return [all_nums, all_operands]
+
 
 
 def _helper_handle_expressions(args):
     expressions = args[0]
     original = args[1]
     output = [[]]
+    yes = False
     for expression in expressions:
+        yes = False
         expression = in_between("(", ")", expression)
         print(expression)
         #bool_operations = ["==", "!=", "<=", ">=", "<", ">", "!"]
-        cond, ex, check = expression.partition(bool_operations[0])
-        expression = ops[ex](cond, check)
+        for i in range(len(bool_operations)):
+            cond = expression
+            k = 0
+            while cond == expression and k <= len(bool_operations):
+                cond, ex, check = expression.partition(bool_operations[k])
+                k += 1
+            if ex == "?":
+                yes = ops[ex](check)
+            else:
+                yes = ops[ex](cond, check)
 
         
-        output[0].append(expression)
+        output[0].append(yes)
+
     
     output.append(original)
     return output
@@ -132,7 +153,7 @@ if __name__ == "__main__": # for testing
     # test = ""
     # print("hi")
     # print(handle_operations(test))
-    print(_helper_handle_operations(20, 40, "%"))
+    print(handle_expressions("((1+2==9) || (4+5==9)) || (?1)"))
 
     # operations = ["+", "-", "*", "/", "%", "//", "**"]
     # num1, num2 = 4, 5
