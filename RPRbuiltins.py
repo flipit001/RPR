@@ -60,20 +60,26 @@ class OperationManager:
         self.args = args
 
     def get_type(self, value):
-        try: 
-            return self.is_true(value)
+        try: # bool
+            return self.is_true(value), bool
         except ValueError:
             pass
-        try: 
-            list(value)
+        try: # list
+            list(value), list
         except ValueError:
             pass
-        try: 
-            int(value)
+        try: # int
+            int(value), int
         except ValueError:
             pass
+        try: # float
+            return float(value), float
+        except ValueError:
+            pass
+
+        return value, str
         
-    def handle_operation(self, expression, typ=int):
+    def handle_operation(self, expression):
         return eval(expression)
 
     def multi_split(self, string, delimiters):
@@ -166,7 +172,7 @@ any func nice() {
 }
 
 """
-    print(om.is_true("(?1) || (2 == 1)"))
+    print(om.is_true("('cool' + 1)"))
     # print(om.handle_operation("1 + 2 * 3")) #unforunately unless i find a better way to do this i have to use eval()
     # om.handle_brackets("{}")
     # try:

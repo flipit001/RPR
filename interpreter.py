@@ -52,8 +52,12 @@ for i in range(len(usable_lines)):
         om.set_vars({name: [val, i]})
 
 for i in range(len(usable_lines)):
+    # print(usable_lines[i])
+    if usable_lines[i].startswith("//"):
+        continue
     before_comments, _, _ = usable_lines[i].partition("//")
     before_comments += " "
+    print(before_comments)
     for k, v in om.vars.items():
         if i <= v[1]:
             continue
