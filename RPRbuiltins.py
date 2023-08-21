@@ -1,4 +1,5 @@
 import operator
+import exceptions as e
 # import ast
 # import string
 
@@ -162,6 +163,24 @@ class OperationManager:
     def add_to_list(self, l, num):
         return [i+num for i in l]
 
+    def in_string(self, index, line):
+        firststr = -1
+        secstr = -1
+        while not index-1 < 0:
+            if line[index] == '\'' or line[index] == '\"':
+                firststr = index
+            index -= 1
+        if firststr == -1:
+            return False
+        while not index+1 > len(line):
+            if line[index] == "\'" or line[index] == "\"":
+                secstr = index
+            index += 1
+        if secstr == -1:
+            e.StringNotClosed(f"string was not closed here: {line}")
+        
+        return index in list(range(firststr, secstr+1))
+
 if __name__ == "__main__":
     om = OperationManager()
     om.args = """
@@ -172,7 +191,8 @@ any func nice() {
 }
 
 """
-    print(om.is_true("('cool' + 1)"))
+    test = "'hey bro how are you doing' nocie"
+    print(om.in_string(test.index("bro"), test))
     # print(om.handle_operation("1 + 2 * 3")) #unforunately unless i find a better way to do this i have to use eval()
     # om.handle_brackets("{}")
     # try:

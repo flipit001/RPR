@@ -1,11 +1,12 @@
 import RPRbuiltins as builtins
 fname = "testing.rpr"
 
-symbols = ['{', '}', '(', ')', '[', ']', '.', '"', '*', '\n', ':', ',']
+symbols = ['{', '}', '(', ')', '[', ']', '.', '"', '\n', ':', ',']
+symbols_no_str = "{([.\n:,])}"
 ok = "~!@#$%^&*()_+{}|:\"<>?,./;\'\][=-``]] "
 multi_char_symbols = ["//"]
-keywords = ['func', "print"]
-ALLKEYS = symbols+multi_char_symbols+keywords
+builtin_funcs = {"print": print}
+ALLKEYS = symbols+multi_char_symbols
     
 
 # fname = input("filename: \n")
@@ -37,6 +38,8 @@ for i, char in enumerate(source):
 usable_lines = "".join(allines).split("\n")
 om = builtins.OperationManager()
 
+# print(allines)
+
 final = []
 
 for i in range(len(usable_lines)):
@@ -55,9 +58,6 @@ for i in range(len(usable_lines)):
     # print(usable_lines[i])
     if usable_lines[i].startswith("//"):
         continue
-    before_comments, _, _ = usable_lines[i].partition("//")
-    before_comments += " "
-    print(before_comments)
     for k, v in om.vars.items():
         if i <= v[1]:
             continue
@@ -73,11 +73,12 @@ for i in range(len(usable_lines)):
                 # print("here")
                 break
             # print(before_comments[l[index] + len(k)+1])
-            if before_comments[l[index] + len(k)+1] in ok and (l[index] == 0 or before_comments[l[index]-1] in ok):
+            # print("this is cool")
+            if (index+len(k)+1 >= len(before_comments) or before_comments[l[index] + len(k)+1] in ok) and (l[index] == 0 or before_comments[l[index]-1] in ok):
                 before_comments = f"{before_comments[:l[index]]}{v[0]}{before_comments[l[index]+len(k):]}"
                 l = om.add_to_list(l, abs(len(k) - (len(v[0]))))
                 # print(abs(len(k) - (len(v[0])+2)))
-                # print(before_comments)
+                print(before_comments)
             else:
                 # print("here")
                 continue
@@ -86,8 +87,31 @@ for i in range(len(usable_lines)):
     # print(before_comments)
     final.append(before_comments)
 
+# print(final)
+# print(final)
+for i in range(len(final)):
+    final[i] = "".join(final[i])
 
-print(final)
+# print(final)
+
+for i in range(len(final)):
+    line = final[i] + " "
+
+    for funcname, func in builtin_funcs.items():
+        try:
+            index = final[i].index(funcname)
+        except ValueError:
+            continue
+        if (index == 0 or line[index-1] in ok) and line[index+1] in ok:
+            print("here")
+            args = om.in_between("(", ")", line)
+            # print(args)
+            try:
+                func(args)
+
+            except:
+                raise Exception("sorry, your arguments were wrong")
+
 
     
                 
