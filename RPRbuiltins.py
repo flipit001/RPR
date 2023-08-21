@@ -1,4 +1,5 @@
 import operator
+# import ast
 # import string
 
 # all_chars = string.ascii_letters+'`~-_[{}]\\|;:\'\"'
@@ -51,8 +52,9 @@ class OperationManager:
     
     def is_true(self, expression):
         for k, v in conversion_chart.items():
-            expression.replace(k, v)
-        return bool(conversion_chart)
+            # print(k, v)
+            expression = expression.replace(k, v)
+        return bool(eval(expression))
     
     def set_args(self, args):
         self.args = args
@@ -64,15 +66,15 @@ class OperationManager:
             pass
         try: 
             list(value)
-        except:
+        except ValueError:
             pass
         try: 
             int(value)
-        except:
+        except ValueError:
             pass
         
-    def handle_operation(self, num1, num2, operation):
-        return ops[operation](int(num1), int(num2))
+    def handle_operation(self, expression, typ=int):
+        return eval(expression)
 
     def multi_split(self, string, delimiters):
         for delimiter in delimiters:
@@ -145,7 +147,8 @@ any func nice() {
 }
 
 """
-    print(om.is_true("(?1)"))
+    print(om.is_true("(?1) || (2 == 1)"))
+    # print(om.handle_operation("1 + 2 * 3")) #unforunately unless i find a better way to do this i have to use eval()
     # om.handle_brackets("{}")
     # try:
     #     print(om.handle_operation("20", "1000000", "**"))
