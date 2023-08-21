@@ -37,6 +37,8 @@ for i, char in enumerate(source):
 usable_lines = "".join(allines).split("\n")
 om = builtins.OperationManager()
 
+final = []
+
 for i in range(len(usable_lines)):
     before_comments, _, _ = usable_lines[i].partition("//")
     # print(before_comments)
@@ -58,15 +60,30 @@ for i in range(len(usable_lines)):
 
         # print(k)
         # print(om.find_all(k, before_comments))
-        for index in om.find_all(k, before_comments):
-            if index == -1:
-                print("here")
+        l = om.find_all(k, before_comments)
+        for index in range(len(l)):
+            # print(before_comments[l[index] + len(k)+1])
+            # print(l, l[index])
+            # print(before_comments[l[index-1]])
+            if l[index] == -1:
+                # print("here")
                 break
-            if before_comments[index + len(k)+1] in ok:
-                before_comments = f"{before_comments[:index]}{v[0]}{before_comments[:len(v[0])+index]}"
-                print(before_comments)
+            # print(before_comments[l[index] + len(k)+1])
+            if before_comments[l[index] + len(k)+1] in ok and (l[index] == 0 or before_comments[l[index]-1] in ok):
+                before_comments = f"{before_comments[:l[index]]}{v[0]}{before_comments[l[index]+len(k):]}"
+                l = om.add_to_list(l, abs(len(k) - (len(v[0]))))
+                # print(abs(len(k) - (len(v[0])+2)))
+                # print(before_comments)
             else:
+                # print("here")
                 continue
+
+
+    # print(before_comments)
+    final.append(before_comments)
+
+
+print(final)
 
     
                 

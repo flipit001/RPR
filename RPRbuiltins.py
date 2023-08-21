@@ -152,6 +152,9 @@ class OperationManager:
 
     def remove_all_2d(self, l, N):
         return [[ele for ele in sub if ele != N] for sub in l]
+    
+    def add_to_list(self, l, num):
+        return [i+num for i in l]
 
 if __name__ == "__main__":
     om = OperationManager()
