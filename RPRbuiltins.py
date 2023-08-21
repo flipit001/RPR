@@ -88,9 +88,25 @@ class OperationManager:
         return before
 
     def find_all(self, ch, string=None):
-        if not string:
-            string = self.args
-        return [i for i, letter in enumerate(string) if letter == ch]
+            if len(ch) == 1:
+                if not string:
+                    string = self.args
+                res = [i for i, letter in enumerate(string) if letter == ch]
+                if res:
+                    return res
+                return [-1]
+            else:
+                index = 0
+                res = []
+                if index == -1:
+                    return [-1]
+                while index != -1:
+                    res.append(index)
+                    index = string.find(ch, index+1, -1)
+
+                return res
+
+
 
     def handle_brackets(self, char):
         args = self.args
