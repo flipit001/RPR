@@ -165,21 +165,28 @@ class OperationManager:
 
     def in_string(self, index, line):
         firststr = -1
+        cindex = index
         secstr = -1
         while not index-1 < 0:
+            # print(line[index])
             if line[index] == '\'' or line[index] == '\"':
                 firststr = index
             index -= 1
-        if firststr == -1:
-            return False
+        # if firststr == -1:
+        #     return False
+        index = cindex
         while not index+1 > len(line):
             if line[index] == "\'" or line[index] == "\"":
                 secstr = index
             index += 1
         if secstr == -1:
             e.StringNotClosed(f"string was not closed here: {line}")
-        
-        return index in list(range(firststr, secstr+1))
+        # print()
+        # print(secstr, firststr)
+        # print(list(range(firststr, secstr+1)))
+        # print(index)
+
+        return cindex in list(range(firststr, secstr+1))
 
 if __name__ == "__main__":
     om = OperationManager()
@@ -191,8 +198,8 @@ any func nice() {
 }
 
 """
-    test = "'hey bro how are you doing' nocie"
-    print(om.in_string(test.index("bro"), test))
+    test = "'hey bozo monkey' pp"
+    print(om.in_string(test.index("bozo"), test))
     # print(om.handle_operation("1 + 2 * 3")) #unforunately unless i find a better way to do this i have to use eval()
     # om.handle_brackets("{}")
     # try:
