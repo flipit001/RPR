@@ -7,7 +7,7 @@ class Add(Expression):
     def __str__(self) -> str:
         return f"{self.left} + {self.right}"
     
-    def eval(self):
+    def eval(self, *args):
         return self.left.eval() + self.right.eval()
     
 class Subtraction(Expression):
@@ -17,7 +17,7 @@ class Subtraction(Expression):
     def __str__(self) -> str:
         return f"{self.left} - {self.right}"
     
-    def eval(self):
+    def eval(self, *args):
         return self.left.eval() - self.right.eval()
     
 class Multiplication(Expression):
@@ -27,7 +27,7 @@ class Multiplication(Expression):
     def __str__(self) -> str:
         return f"{self.left} * {self.right}"
     
-    def eval(self):
+    def eval(self, *args):
         return self.left.eval() * self.right.eval()
     
 class Division(Expression):
@@ -37,7 +37,7 @@ class Division(Expression):
     def __str__(self) -> str:
         return f"{self.left} / {self.right}"
     
-    def eval(self):
+    def eval(self, *args):
         return self.left.eval() / self.right.eval()
     
 

@@ -7,7 +7,7 @@ class Or(Expression):
     def __str__(self) -> str:
         return f"{self.left} || {self.right}"
     
-    def eval(self):
+    def eval(self, *args):
         return self.left.eval() or self.right.eval()
     
 class And(Expression):
@@ -15,9 +15,9 @@ class And(Expression):
         super().__init__(left, right)
 
     def __str__(self) -> str:
-        return f"{self.left} And {self.right}"
+        return f"{self.left} && {self.right}"
     
-    def eval(self):
+    def eval(self, *args):
         return self.left.eval() and self.right.eval()
     
 class Not:
@@ -27,6 +27,6 @@ class Not:
     def __str__(self) -> str:
         return f"!{self.value}"
     
-    def eval(self):
+    def eval(self, *args):
         return not self.value
 

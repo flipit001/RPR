@@ -5,7 +5,7 @@ class Value:
     def __repr__(self):
         return str(self.value)
 
-    def eval(self):
+    def eval(self, *args):
         return self.value
     
 class Variable:
@@ -16,7 +16,7 @@ class Variable:
     def __repr__(self):
         return f"{self.name}={self.value}"
     
-    def eval(self):
+    def eval(self, *args):
         return self.value
     
 class Expression:
@@ -27,5 +27,5 @@ class Expression:
     def __str__(self) -> str:
         pass
 
-    def eval(self):
+    def eval(self, *args):
         pass
