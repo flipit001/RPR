@@ -1,16 +1,4 @@
-from src.variables import Value, Variable
-
-
-class Expression:
-    def __init__(self, left, right) -> None:
-        self.left = left
-        self.right = right
-
-    def __str__(self) -> str:
-        pass
-
-    def eval(self):
-        pass
+from src.variables import Value, Variable, Expression
 
 class Add(Expression):
     def __init__(self, left, right) -> None:

@@ -18,3 +18,14 @@ class Variable:
     
     def eval(self):
         return self.value
+    
+class Expression:
+    def __init__(self, left, right) -> None:
+        self.left = left
+        self.right = right
+
+    def __str__(self) -> str:
+        pass
+
+    def eval(self):
+        pass
