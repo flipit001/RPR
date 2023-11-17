@@ -1,2 +1,0 @@
-class InvalidBoolOperations(Exception):
-    pass

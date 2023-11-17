@@ -1,3 +1,0 @@
-
-class StringNotClosed(Exception):
-    pass
