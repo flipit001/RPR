@@ -27,5 +27,5 @@ class Expression:
     def __str__(self) -> str:
         pass
 
-    def eval(self, *args):
+    def eval(self):
         pass
