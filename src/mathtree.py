@@ -1,6 +1,6 @@
 from src.variables import Value, Variable, Expression
 
-class Add(Expression):
+class Addition(Expression):
     def __init__(self, left, right) -> None:
         super().__init__(left, right)
 

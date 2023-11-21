@@ -5,8 +5,11 @@ class Value:
     def __repr__(self):
         return str(self.value)
 
-    def eval(self, *args):
+    def eval(self):
         return self.value
+    
+    def set(self, value):
+        self.value = value
     
 class Variable:
     def __init__(self, name, value):
