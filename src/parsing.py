@@ -1,39 +1,26 @@
 import src.mathtree as m, src.booltree as b, src.variables as v
+from re import split as _split
 
-math_expressions = ["+", "-", "*", "/"]
+math_expressions = ["+", "-", "*", "/", "(", ")"]
 bool_expressions = ["||", "&&", "!", ">", ">=", "<", "<="]
-nums = "123456789."
+numbers = "123456789."
+re_ops = r"([()+\-*/])"
 
 def evaluate_math_expression(expression: str, env: dict):
     # turn expression to list
     expression = expression.replace(" ", "")
-    operators = [i for i in expression if i in math_expressions] + ['']
-    nums = _multi_split(expression, math_expressions)
-    # print(nums)
-    # print(nums[0])
-    parenthesiss = []
-    for i in range(len(nums)):
-        
-        if p := nums[i].rfind("(") != -1:
-            parenthesiss.append((nums[i][:p], i * 2))
-            nums[i] = nums[i][p:]
-
-        if p := nums[i].find(")") != -1:
-            parenthesiss.append((nums[i][p:], i * 2 + 1))
-            nums[i] = nums[i][:p]
-
-        if nums[i] in env:
-            nums[i] = env[nums[i]]
-        print(nums[i])
-        nums[i] = float(nums[i])
-    list_expr = [j for i in zip(nums, operators) for j in i][:-1]
-    counter = 0
-    for p, i in parenthesiss:
-        list_expr.insert(i+counter, p)
-        counter += 1
+    list_expr = []
+    
+    list_expr = [i for i in _split(re_ops, expression) if i != '']
 
     print(list_expr)
+        
+    for i in range(len(list_expr)):
+        if list_expr[i] in env:
+            list_expr[i] = env[list_expr[i]]
 
+        if list_expr[i] not in math_expressions:
+            list_expr[i] = float(list_expr[i])
 
     return _Math_Parser(list_expr)._parse_AS().eval()
 
@@ -44,6 +31,13 @@ def _multi_split(s, delims):
         s = " ".join(s.split(deli))
 
     return s.split()
+
+def _sum(l):
+    output = ""
+    for tok in l:
+        output += tok
+    
+    return output
 
 class _Math_Parser:
 
