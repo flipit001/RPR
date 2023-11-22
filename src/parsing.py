@@ -9,12 +9,16 @@ def evaluate_math_expression(expression: str, env: dict):
     expression = expression.replace(" ", "")
     operators = [i for i in expression if i in math_expressions] + ['']
     nums = _multi_split(expression, math_expressions)
-    print(nums)
+    # print(nums)
+    # print(nums[0])
     for i in range(len(nums)):
+
         if nums[i] in env:
             nums[i] = env[nums[i]]
+        # print(nums[i], i)
         nums[i] = float(nums[i])
     list_expr = [j for i in zip(nums, operators) for j in i][:-1]
+
     print(list_expr)
 
 
@@ -73,7 +77,7 @@ class _Math_Parser:
 
     def _parse_P(self):
         temp = self.cur
-        if temp != ")":
+        if temp != "(" and temp != ")":
             self.cur = self._next()
             return v.Value(temp)
         

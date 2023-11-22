@@ -8,6 +8,7 @@ class Addition(Expression):
         return f"{self.left} + {self.right}"
     
     def eval(self):
+        # print(self.left)
         return self.left.eval() + self.right.eval()
     
 class Subtraction(Expression):
