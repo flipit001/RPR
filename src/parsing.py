@@ -11,18 +11,31 @@ def evaluate_math_expression(expression: str, env: dict):
     nums = _multi_split(expression, math_expressions)
     # print(nums)
     # print(nums[0])
+    parenthesiss = []
     for i in range(len(nums)):
+        
+        if p := nums[i].rfind("(") != -1:
+            parenthesiss.append((nums[i][:p], i * 2))
+            nums[i] = nums[i][p:]
+
+        if p := nums[i].find(")") != -1:
+            parenthesiss.append((nums[i][p:], i * 2 + 1))
+            nums[i] = nums[i][:p]
 
         if nums[i] in env:
             nums[i] = env[nums[i]]
-        # print(nums[i], i)
+        print(nums[i])
         nums[i] = float(nums[i])
     list_expr = [j for i in zip(nums, operators) for j in i][:-1]
+    counter = 0
+    for p, i in parenthesiss:
+        list_expr.insert(i+counter, p)
+        counter += 1
 
     print(list_expr)
 
 
-    return _Math_Parser(list_expr)._parse_AS()
+    return _Math_Parser(list_expr)._parse_AS().eval()
 
 
 def _multi_split(s, delims):
