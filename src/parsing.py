@@ -1,10 +1,11 @@
 import src.mathtree as m, src.booltree as b, src.variables as v
-from re import split as _split
+from re import split as _split, search
 
 math_expressions = ["+", "-", "*", "/", "(", ")"]
 bool_expressions = ["||", "&&", "!", ">", ">=", "<", "<="]
 numbers = "123456789."
-re_ops = r"([()+\-*/])"
+re_ops = r"([\(\)\+\-\*\/])"
+re_std_ops = r"([\+\-\*\/])"
 
 def evaluate_math_expression(expression: str, env: dict):
     # turn expression to list
@@ -23,6 +24,9 @@ def evaluate_math_expression(expression: str, env: dict):
             list_expr[i] = float(list_expr[i])
 
     return _Math_Parser(list_expr)._parse_AS().eval()
+
+def is_math_expression(expression):
+    return bool(search(re_std_ops, expression))
 
 
 def _multi_split(s, delims):
