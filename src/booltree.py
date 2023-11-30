@@ -5,7 +5,7 @@ class Or(Expression):
         super().__init__(left, right)
 
     def __str__(self) -> str:
-        return f"{self.left} || {self.right}"
+        return f"{self.left} ->\n || \n{self.right}"
     
     def eval(self):
         return self.left.eval() or self.right.eval()
@@ -15,7 +15,7 @@ class And(Expression):
         super().__init__(left, right)
 
     def __str__(self) -> str:
-        return f"{self.left} && {self.right}"
+        return f"{self.left} ->\n && \n{self.right}"
     
     def eval(self):
         return self.left.eval() and self.right.eval()
@@ -25,7 +25,7 @@ class Not:
         self.value = value
 
     def __str__(self) -> str:
-        return f"!{self.value}"
+        return f"!{self.value}\n"
     
     def eval(self):
         return not self.value
@@ -35,7 +35,7 @@ class Equal(Expression):
         super().__init__(left, right)
 
     def __str__(self) -> str:
-        return f"{self.left} == {self.right}"
+        return f"{self.left} ->\n == \n{self.right}"
     
     def eval(self):
         return self.left.eval() == self.right.eval()
@@ -45,7 +45,7 @@ class NotEqual(Expression):
         super().__init__(left, right)
 
     def __str__(self):
-        return f"{self.left} != {self.right}"
+        return f"{self.left} ->\n != \n{self.right}"
     
     def eval(self):
         return self.left.eval() == self.right.eval()
@@ -55,7 +55,7 @@ class GreaterThan(Expression):
         super().__init__(left, right)
 
     def __str__(self):
-        return f"{self.left} > {self.right}"
+        return f"{self.left} ->\n > \n{self.right}"
     
     def eval(self):
         return self.left.eval() > self.right.eval()
@@ -65,7 +65,7 @@ class GreatherThanEqual(Expression):
         super().__init__(left, right)
 
     def __str__(self):
-        return f"{self.left} >= {self.right}"
+        return f"{self.left} ->\n >= \n{self.right}"
     
     def eval(self):
         return self.left.eval() >= self.right.eval()
@@ -75,7 +75,7 @@ class LessThan(Expression):
         super().__init__(left, right)
 
     def __str__(self):
-        return f"{self.left} < {self.right}"
+        return f"{self.left} ->\n < \n{self.right}"
     
     def eval(self):
         return self.left.eval() < self.right.eval()
@@ -85,7 +85,7 @@ class LessThanEqual(Expression):
         super().__init__(left, right)
 
     def __str__(self):
-        return f"{self.left} <= {self.right}"
+        return f"{self.left} ->\n <= \n{self.right}"
     
     def eval(self):
         return self.left.eval() <= self.right.eval()

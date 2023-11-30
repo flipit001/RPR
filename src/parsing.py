@@ -7,7 +7,7 @@ numbers = "123456789."
 re_ops = r"([\(\)\+\-\*\/])"
 re_std_ops = r"([\+\-\*\/])"
 
-def evaluate_math_expression(expression: str, env: dict):
+def math_expression_to_ast(expression: str, env: dict):
     # turn expression to list
     expression = expression.replace(" ", "")
     list_expr = []
@@ -23,7 +23,7 @@ def evaluate_math_expression(expression: str, env: dict):
         if list_expr[i] not in math_expressions:
             list_expr[i] = float(list_expr[i])
 
-    return _Math_Parser(list_expr)._parse_AS().eval()
+    return _Math_Parser(list_expr)._parse_AS()
 
 def is_math_expression(expression):
     return bool(search(re_std_ops, expression))

@@ -5,7 +5,7 @@ class Addition(Expression):
         super().__init__(left, right)
 
     def __str__(self) -> str:
-        return f"{self.left} + {self.right}"
+        return f"{self.left} ->\n + \n{self.right}"
     
     def eval(self):
         # print(self.left)
@@ -16,7 +16,7 @@ class Subtraction(Expression):
         super().__init__(left, right)
 
     def __str__(self) -> str:
-        return f"{self.left} - {self.right}"
+        return f"{self.left} ->\n - \n{self.right}"
     
     def eval(self):
         return self.left.eval() - self.right.eval()
@@ -26,7 +26,7 @@ class Multiplication(Expression):
         super().__init__(left, right)
 
     def __str__(self) -> str:
-        return f"{self.left} * {self.right}"
+        return f"{self.left} ->\n * \n{self.right}"
     
     def eval(self):
         return self.left.eval() * self.right.eval()
@@ -36,7 +36,7 @@ class Division(Expression):
         super().__init__(left, right)
 
     def __str__(self) -> str:
-        return f"{self.left} / {self.right}"
+        return f"{self.left} ->\n / \n{self.right}"
     
     def eval(self):
         return self.left.eval() / self.right.eval()
