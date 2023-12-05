@@ -5,7 +5,11 @@ math_expressions = ["+", "-", "*", "/", "(", ")"]
 bool_expressions = ["||", "&&", "!", ">", ">=", "<", "<="]
 numbers = "123456789."
 re_ops = r"([\(\)\+\-\*\/])"
+re_bool_ops = r"(\()|(\))|(\|\|)|(\&\&)|(\!\=)|(\!)|(\<\=)|(\<)|(\>\=)|(\>)|(\+)|(\-)|(\*)|(\/)|(\=\=)"
 re_std_ops = r"([\+\-\*\/])"
+is_string_re = r"[\'\"]"
+is_number_re = r"[0-9]"
+is_bool_re = r"((true)|(false))"
 
 def math_expression_to_ast(expression: str, env: dict):
     # turn expression to list
@@ -25,9 +29,48 @@ def math_expression_to_ast(expression: str, env: dict):
 
     return _Math_Parser(list_expr)._parse_AS()
 
+
+def bool_expression_to_ast(expression: str, env: dict):
+    expression = expression.replace(" ", "")
+    list_expr = []
+
+    print(_split(re_bool_ops, expression))
+    
+    list_expr = [i for i in _split(re_bool_ops, expression) if i != None]
+
+    print(list_expr)
+
+    for i in range(len(list_expr)):
+        if list_expr[i] in env:
+            list_expr[i] = env[list_expr[i]]
+
+        if is_string(list_expr[i]):
+            list_expr[i] = str(list_expr[i])
+
+        elif is_number(list_expr[i]):
+            list_expr[i] = float(list_expr[i])
+
+        elif is_bool(list_expr[i]):
+            if list_expr[i] == "true":
+                list_expr[i] = True
+            if list_expr[i] == "false":
+                list_expr[i] = False
+
+    print(list_expr)
+
+
+
 def is_math_expression(expression):
     return bool(search(re_std_ops, expression))
 
+def is_string(expression):
+    return bool(search(is_string_re, expression))
+
+def is_number(expression):
+    return bool(search(is_number_re, expression)) and not is_string(expression) and not is_math_expression(expression)
+
+def is_bool(expression):
+    return bool(search(is_bool_re, expression))
 
 def _multi_split(s, delims):
     
