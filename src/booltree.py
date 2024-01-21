@@ -48,7 +48,7 @@ class NotEqual(Expression):
         return f"{self.left} ->\n != \n{self.right}"
     
     def eval(self):
-        return self.left.eval() == self.right.eval()
+        return self.left.eval() != self.right.eval()
     
 class GreaterThan(Expression):
     def __init__(self, left, right) -> None:

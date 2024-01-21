@@ -15,3 +15,6 @@ if __name__ == "__main__":
     # print(parsing.evaluate_math_expression(expr, env))
     # print(parsing.is_math_expression(expr))
     print(parsing.bool_expression_to_ast(expr, env))
+    # print(parsing._astify([variables.Value(2), "+", variables.Value(3)]).eval())
+    # print(parsing._multi_list_split([1, '||', 2, '==', 3], ['||', '==']))
+    # print(parsing._list_split([1, '||', 2], '||'))
